@@ -9,7 +9,7 @@ run the script:
 config file:
     base_pace: the initial pace of the clock
     frequency_of_change: change the pace of the clock every few seconds  
-    add_increment: how much we want to change the pace, negative number (> 0 and < 1) means decrease the pace (slow down), positive number (< 0 and > -1) means increase the pace (speed up)
+    add_increment: how much we want to change the pace, negative number (< 0 and > -1) means decrease the pace (slow down), positive number (> 0 and < 1) means increase the pace (speed up)
     stop_time: stop the clock after some seconds
     e.g., set base_pace = 1, frequency_of_change = 5, add_increment = 0.1, stop_time = 20,
           the clock will start from normal pace, and increase by 0.1 every 5 seconds until the "CHANGE" button is pressed or 20 seconds has passed. 

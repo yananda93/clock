@@ -10,7 +10,7 @@ run the script:
 config file:
     base_pace: the initial pace of the timer
     countdown_time: the time (in seconds) from which the timer starts to count down
-    add_increment: how much we want to change the pace, negative number (> 0 and < 1) means decrease the pace (slow down), positive number (< 0 and > -1) means increase the pace (speed up)
+    add_increment: how much we want to change the pace, negative number (< 0 and > -1) means decrease the pace (slow down), positive number (> 0 and < 1) means increase the pace (speed up)
 
     e.g., set base_pace = 1, countdown_time = 5, add_increment = 0.1
           The timer will start from normal pace, and increase by 0.1 every time we restart the timer until the "CHANGE" button is pressed 
@@ -18,6 +18,8 @@ config file:
 
 output file:
     pace_at_keypress: the pace of the clock when the "CHANGE" button is pressed
+    timer_count: how many times the timer was started before the CHANGE is noticed (including the base pace one)
+    time_elapsed: the actual time elapsed for the timer when the CHANGE is noticed
 """
 
 class Timer(tk.Frame):
@@ -36,6 +38,8 @@ class Timer(tk.Frame):
         self.output_df = self.config_df.copy()
 
         self.output_df.insert(3, "pace_at_keypress", "NAN")
+        self.output_df.insert(4, "timer_count", "NAN")
+        self.output_df.insert(5, "time_elapsed", "NAN")
 
         self.trial_num = 0
         self.base_pace = 1
@@ -117,7 +121,7 @@ class Timer(tk.Frame):
             self.time_scale = self.add_increment*self.counter + 1
             if self.time_scale <= 0:
                 self.time_scale = self.add_increment*(self.counter - 1) + 1
-            # print(self.base_pace/self.time_scale, self.time_scale)
+            print(self.base_pace/self.time_scale, self.time_scale)
             time.sleep(self.base_pace/(self.time_scale))
           
             total_seconds -= 1
@@ -130,6 +134,8 @@ class Timer(tk.Frame):
     def change(self):
         self.stop()
         self.output_df.at[self.trial_num+1, "pace_at_keypress"] = self.time_scale
+        self.output_df.at[self.trial_num+1, "timer_count"] = ((self.time_scale - 1) / self.add_increment) + 1
+        self.output_df.at[self.trial_num+1, "time_elapsed"] = self.countdown_time / self.time_scale
             
     def stop(self):
         self.is_running = False
