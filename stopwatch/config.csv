@@ -1,0 +1,5 @@
+trial_num,base_pace,frequency_of_change,add_increment,stop_time
+1,1,5,-0.1,120
+2,1,5,0.1,120
+3,1,10,-0.2,120
+4,1,10,0.2,120
